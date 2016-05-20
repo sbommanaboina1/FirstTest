@@ -1,3 +1,13 @@
+
+var client = new HttpClient(new ClientCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
+
+client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+
+https://github.com/azzlack/Microsoft.AspNet.WebApi.MessageHandlers.Compression
+
+
+
 http://stackoverflow.com/questions/16695975/calling-signalr-hub-from-webapi-controller-issues
 http://www.strathweb.com/2012/11/realtime-asp-net-web-api-tracing-with-signalr/
 https://github.com/filipw/WebAPI.SignalR.Tracing
