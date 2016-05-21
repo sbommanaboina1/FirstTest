@@ -1,4 +1,7 @@
 
+https://github.com/JonHowes/AsyncAwaitWebApi/blob/master/TestClient/Program.cs
+
+
 var client = new HttpClient(new ClientCompressionHandler(new GZipCompressor(), new DeflateCompressor()));
 
 client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
