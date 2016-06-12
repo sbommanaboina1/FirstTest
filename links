@@ -1,3 +1,53 @@
+
+Using jQuery from Angular2 is a breeze compared to ng1. If you are using TypeScript you could first reference jQuery typescript definition.
+tsd install jquery --save
+or
+typings install dt~jquery --global --save
+TypescriptDefinitions are not required since you could just use any as the type for $ or jQuery
+In your angular component you should reference a DOM element from the template using @ViewChild() After the view has been initialized you can use the nativeElement property of this object and pass to jQuery.
+Declaring $ (or jQuery) as JQueryStatic will give you a typed reference to jQuery. 
+import {bootstrap}    from '@angular/platform-browser-dynamic';
+import {Component, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+declare var $:JQueryStatic;
+
+@Component({
+    selector: 'ng-chosen',
+    template: `<select #selectElem>
+        <option *ngFor="#item of items" [value]="item" [selected]="item === selectedValue">{{item}} option</option>
+        </select>
+        <h4> {{selectedValue}}</h4>`
+})
+export class NgChosenComponent implements AfterViewInit {
+    @ViewChild('selectElem') el:ElementRef;
+    items = ['First', 'Second', 'Third'];
+    selectedValue = 'Second';
+
+    ngAfterViewInit() {
+        $(this.el.nativeElement)
+            .chosen()
+            .on('change', (e, args) => {
+                this.selectedValue = args.selected;
+            });
+    }
+}
+
+bootstrap(NgChosenComponent);
+This example is available on plunker: http://plnkr.co/edit/Nq9LnK?p=preview
+tslint will complain about chosen not being a property on $, to fix this you can add a definition to the JQuery interface in your custom *.d.ts file
+interface JQuery {
+    chosen(options?:any):JQuery;
+}    
+
+https://blog.sstorie.com/integrating-angular-2-and-signalr-part-2-of-2/
+https://github.com/sstorie/experiments/tree/master/angular2-signalr
+
+
+
+
+
+
+
+
 http://blog.angular-academy.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
 
 http://blog.rangle.io/observables-and-reactive-programming-in-angular-2/
