@@ -4,35 +4,28 @@
     <meta charset="UTF-8">
     <title>angular2-rxjs-example</title>
     <link rel="stylesheet" href="styles.css">
-
     <link rel="stylesheet" href="examples.css">
     <link rel="stylesheet" href="slick.grid.css" type="text/css"/>
     <link rel="stylesheet" href="../smoothness/jquery-ui-1.11.3.custom.css" type="text/css"/>
     <link rel="stylesheet" href="slick-default-theme.css" type="text/css"/>
-    
     <script src="../jquery-1.11.2.min.js"></script>
     <script src="../jquery-ui-1.11.3.min.js"></script>
-    
     <script src="jquery.event.drag-2.2.js"></script>
-
-<script src="slick.core.js"></script>
-<script src="slick.formatters.js"></script>
-<script src="slick.grid.js"></script>
-<script src="slick.dataview.js"></script>
-<script src="slick.pager.js"></script>
-
-    
+    <script src="slick.core.js"></script>
+    <script src="slick.formatters.js"></script>
+    <script src="slick.grid.js"></script>
+    <script src="slick.dataview.js"></script>
+    <script src="slick.pager.js"></script>
     <script src="firebugx.js"></script>
+    <script src="slick.cellselectionmodel.js"></script>
+    <script src="slick.rowmovemanager.js"></script>
+	<script language="JavaScript" src="jquery-ui-1.8.24.custom.min.js"></script>
+	<script src="jquery.mousewheel.js"></script>
+	<script src="slick.editors.js"></script>
+	<script src="slick.rowselectionmodel.js"></script>
+	<script src="slick.columnpicker.js"></script>
 
-<!--<script src="../lib/jquery-1.7.min.js"></script>-->
-<!--<script src="../lib/jquery-ui-1.8.16.custom.min.js"></script>-->
-<!--<script src="../lib/jquery.event.drag-2.2.js"></script>-->
-
-<script src="slick.cellselectionmodel.js"></script>
-<script src="slick.rowmovemanager.js"></script>
-    
-    
-   <style>
+  <style>
     .load-medium {
       color: orange;
       font-weight: bold;
@@ -50,6 +43,22 @@
     }
   </style>
 </head>
+<body>
+<div style="position:relative">
+  <div style="width:520px;">
+    <div id="myGrid" style="width:100%;height:500px;"></div>
+  </div>
+</div>
+<script src="../lib/firebugx.js"></script>
+<script src="../lib/jquery-1.7.min.js"></script>
+<script src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
+<script src="../lib/jquery.event.drag-2.2.js"></script>
+
+<script src="../slick.core.js"></script>
+<script src="../plugins/slick.cellselectionmodel.js"></script>
+<script src="../plugins/slick.rowmovemanager.js"></script>
+<script src="../slick.grid.js"></script>
+
 <script>
   var dataView;
   var grid;
@@ -58,8 +67,7 @@
     {id: "sel", name: "#", field: "num", behavior: "select", cssClass: "cell-selection", width: 40, resizable: false, selectable: false },
     {id: "title", name: "Title", field: "title", width: 120, minWidth: 120, cssClass: "cell-title"},
     {id: "duration", name: "Duration", field: "duration"},
-    {id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false,formatter: cpuUtilizationFormatter}, 
-    // formatter: Slick.Formatters.PercentCompleteBar},
+    {id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false, formatter: Slick.Formatters.PercentCompleteBar},
     {id: "start", name: "Start", field: "start", minWidth: 60},
     {id: "finish", name: "Finish", field: "finish", minWidth: 60},
     {id: "effort-driven", name: "Effort Driven", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark}
@@ -67,27 +75,13 @@
   var options = {
     editable: false,
     enableAddRow: false,
-    enableCellNavigation: true,
-    cellHighlightCssClass: "changed",
-    cellFlashingCssClass: "current-server"
+    enableCellNavigation: true
   };
   var percentCompleteThreshold = 0;
   var prevPercentCompleteThreshold = 0;
   var h_runfilters = null;
   function myFilter(item, args) {
     return item["percentComplete"] >= args;
-  }
-  function cpuUtilizationFormatter(row, cell, value, columnDef, dataContext) {
-      debugger;
-    if (value > 90) {
-      return "<span class='load-hi'>" + value + "%</span>";
-    }
-    else if (value > 70) {
-      return "<span class='load-medium'>" + value + "%</span>";
-    }
-    else {
-      return value + "%";
-    }
   }
   function DataItem(i) {
     this.num = i;
@@ -98,6 +92,20 @@
     this.finish = "01/05/2009";
     this.title = "Task " + i;
     this.duration = "5 days";
+  }
+  function AccessGrid(){
+    var columnDef = grid.getColumns();
+    var colField = columnDef[2].field;//Which column starting at 0
+    
+    var item = dataView.getItem(0);//RowIndex
+    item[colField] = "30 days";
+    dataView.updateItem(item.id, item);
+    // grid.resetActiveCell();
+    // grid.render();
+    // dataView.refresh();
+  }
+  function simulateRealTimeUpdates() {
+      
   }
   $(function () {
     // prepare the data
@@ -127,14 +135,6 @@
         }
       }
     });
-    var myCellFormatter = function(row, cell, value, columnDef, dataContext) {
-        debugger;
-    if ((row + cell) % 5 == 1) {
-        return "<div style='background-color:green'>" + value + "</div>";
-    } else {
-        return value;
-    }
-};
     function filterAndUpdate() {
       var isNarrowing = percentCompleteThreshold > prevPercentCompleteThreshold;
       var isExpanding = percentCompleteThreshold < prevPercentCompleteThreshold;
@@ -157,37 +157,6 @@
     dataView.endUpdate();
   })
 </script>
-<body>
-    <div style="position:relative">
-  <div style="width:600px;">
-    <div class="grid-header" style="width:100%">
-      <label>SlickGrid</label>
-    </div>
-    <div id="myGrid" style="width:100%;height:500px;"></div>
-    <div id="pager" style="width:100%;height:20px;"></div>
-  </div>
-
-  <div class="options-panel">
-    <b>Search:</b>
-    <hr/>
-    <div style="padding:6px;">
-      <label style="width:200px;float:left">Show tasks with % at least: </label>
-
-      <div style="padding:2px;">
-        <div style="width:100px;display:inline-block;" id="pcSlider"></div>
-      </div>
-    </div>
-    <br/>
-  </div>
-</div>
-
-<app></app>
-<!--<grid></grid>-->
-<script src="bundle.js"></script>
-<div style="position:relative">
-  <div style="width:520px;">
-    <div id="myGrid" style="width:100%;height:500px;"></div>
-  </div>
-</div>
+<input type="button" onclick="AccessGrid()"/>
 </body>
 </html>
