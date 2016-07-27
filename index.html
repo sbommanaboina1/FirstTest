@@ -40,7 +40,28 @@
     .current-server {
       border: 1px solid black;
       background: orange;
+       -webkit-animation: changebg 5s infinite cubic-bezier(1,0,0,1);
+       -moz-animation: changebg 5s infinite cubic-bezier(1,0,0,1);
+            animation: changebg 5s infinite cubic-bezier(1,0,0,1);
+      
     }
+    @-moz-keyframes changebg {
+      0% {background-color: #f00;}
+     50% {background-color: #fff;}
+    100% {background-color: #f00;}
+}
+
+@-webkit-keyframes changebg {
+      0% {background-color: #f00;}
+     50% {background-color: #fff;}
+    100% {background-color: #f00;}
+}
+
+@keyframes changebg {
+      0% {background-color: #f00;}
+     50% {background-color: #fff;}
+    100% {background-color: #f00;}
+}
   </style>
 </head>
 <body>
@@ -75,7 +96,8 @@
   var options = {
     editable: false,
     enableAddRow: false,
-    enableCellNavigation: true
+    enableCellNavigation: true,
+    cellFlashingCssClass: "current-server"
   };
   var percentCompleteThreshold = 0;
   var prevPercentCompleteThreshold = 0;
@@ -100,6 +122,7 @@
     var item = dataView.getItem(0);//RowIndex
     item[colField] = "30 days";
     dataView.updateItem(item.id, item);
+    grid.flashCell("0", 2, 100);
     // grid.resetActiveCell();
     // grid.render();
     // dataView.refresh();
@@ -121,9 +144,19 @@
       grid.render();
     });
     dataView.onRowsChanged.subscribe(function (e, args) {
+      debugger;
+      if (grid.getActiveCell()) {
+        var row = grid.getActiveCell().row;
+        var cell = grid.getActiveCell().cell;
+        grid.gotoCell(row, cell, false);
+    }
       grid.invalidateRows(args.rows);
       grid.render();
     });
+    grid.onCellChange.subscribe(function(e,args) 
+      {
+        alert("Hi Srini, I am here. ");
+      });
     // wire up the slider to apply the filter to the model
     $("#pcSlider").slider({
       "range": "min",
