@@ -37,6 +37,16 @@
     .changed {
       background: pink;
     }
+    .Up {
+      color: black;
+      background: green;
+      animation: 1 blinkUp 1s step-end infinite
+    }
+    .Down {
+      color:black;
+       background: red;
+      animation: 1 blinkDown 1s step-end infinite
+    }
     .current-server {
       border: 1px solid black;
       background: orange;
@@ -56,7 +66,12 @@
      50% {background-color: #fff;}
     100% {background-color: #f00;}
 }
-
+@keyframes blinkUP {
+	0% {background-color: green}
+}
+@keyframes blinkDown {
+	0% {background-color: red}
+}
 @keyframes changebg {
       0% {background-color: #f00;}
      50% {background-color: #fff;}
@@ -179,11 +194,15 @@
     var colFieldTradePrice = columnDef[2].field;//Which column starting at 0
     var colFieldBid = columnDef[3].field;//Which column starting at 0
     var colFieldAsk = columnDef[4].field;//Which column starting at 0
-        
+    var oldValueTP,oldValueBid, OldValueAsk;        
     setInterval(function() {
         for(var i=0;i<10;i++){       
         var item = dataView.getItem(i);//RowIndex
-        if(i==0)console.log("Old Value Trade Price" + grid.getDataItem(0)["TradePrice"]);
+        if(i==0){
+          oldValue=grid.getDataItem(0)["TradePrice"];
+          oldValueBid=grid.getDataItem(0)["Bid"];
+          oldValueAsk=grid.getDataItem(0)["Ask"];
+        }
         item[colFieldTradePrice] = Math.round(Math.random() * 35);
         item[colFieldBid] = Math.round(Math.random() * 25);
         item[colFieldAsk] = Math.round(Math.random() * 15);
@@ -191,13 +210,18 @@
          if (!changes[0]) {
         changes[0] = {};
       }
-         changes[0]["TradePrice"]="changed";
-        if(i==0) console.log("New Value Trade Price" + item[colFieldTradePrice]);
+         
+        if(i==0) {
+          changes[0]["TradePrice"]= oldValue>item[colFieldTradePrice] ? "Up" : "Down";
+          changes[0]["Bid"]= oldValue>item[colFieldBid] ? "Up" : "Down";
+          changes[0]["Ask"]= oldValue>item[colFieldAsk] ? "Up" : "Down";
+          console.log("New Value Trade Price" + item[colFieldTradePrice] + "Class " + changes[0]["TradePrice"]);
+        }
         dataView.updateItem(item.id, item);
-        grid.setCellCssStyles("highlight", changes);
+        grid.setCellCssStyles(i+"TradePrice", changes);
         grid.render();
         }
-    }, 10000)
+    }, 250)
   })
 </script>
 <input type="button" onclick="AccessGrid()"/>
