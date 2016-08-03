@@ -1,3 +1,15 @@
+ export class AppComponent {
+  public n: number = 1;
+
+  constructor() {
+    setTimeout(() => {
+      this.n = this.n + 10;
+    }, 1000);
+  }
+
+}
+ 
+ 
  $('div.highlightable').removeClass('highlighted');}, 2000);
 https://github.com/JLynch7/SlickGrid/blob/2.0-frozenRowsAndColumns/examples/example-frozen-columns.html
 
