@@ -196,26 +196,30 @@
     var colFieldAsk = columnDef[4].field;//Which column starting at 0
     var oldValueTP,oldValueBid, OldValueAsk;        
     setInterval(function() {
-        for(var i=0;i<10;i++){       
+        //for(var i=0;i<10;i++)
+        { 
+          var i = Math.round(Math.random() * 10);      
         var item = dataView.getItem(i);//RowIndex
-        if(i==0){
-          oldValue=grid.getDataItem(0)["TradePrice"];
-          oldValueBid=grid.getDataItem(0)["Bid"];
-          oldValueAsk=grid.getDataItem(0)["Ask"];
+       // if(i==0)
+        {
+          oldValue=grid.getDataItem(i)["TradePrice"];
+          oldValueBid=grid.getDataItem(i)["Bid"];
+          oldValueAsk=grid.getDataItem(i)["Ask"];
         }
         item[colFieldTradePrice] = Math.round(Math.random() * 35);
         item[colFieldBid] = Math.round(Math.random() * 25);
         item[colFieldAsk] = Math.round(Math.random() * 15);
          var changes = {};
-         if (!changes[0]) {
-        changes[0] = {};
+         if (!changes[i]) {
+        changes[i] = {};
       }
          
-        if(i==0) {
-          changes[0]["TradePrice"]= oldValue>item[colFieldTradePrice] ? "Up" : "Down";
-          changes[0]["Bid"]= oldValue>item[colFieldBid] ? "Up" : "Down";
-          changes[0]["Ask"]= oldValue>item[colFieldAsk] ? "Up" : "Down";
-          console.log("New Value Trade Price" + item[colFieldTradePrice] + "Class " + changes[0]["TradePrice"]);
+        //if(i==0) 
+        {
+          changes[i]["TradePrice"]= oldValue>item[colFieldTradePrice] ? "Up" : "Down";
+          changes[i]["Bid"]= oldValue>item[colFieldBid] ? "Up" : "Down";
+          changes[i]["Ask"]= oldValue>item[colFieldAsk] ? "Up" : "Down";
+          console.log("New Value Trade Price" + item[colFieldTradePrice] + "Class " + changes[i]["TradePrice"]);
         }
         dataView.updateItem(item.id, item);
         grid.setCellCssStyles(i+"TradePrice", changes);
