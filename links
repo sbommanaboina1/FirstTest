@@ -1,4 +1,5 @@
  https://basarat.gitbooks.io/typescript/content/docs/async-await.html
+ https://basarat.gitbooks.io/typescript/content/docs/arrow-functions.html
  
  
  export class AppComponent {
