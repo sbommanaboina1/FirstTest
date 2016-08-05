@@ -1,3 +1,6 @@
+ https://basarat.gitbooks.io/typescript/content/docs/async-await.html
+ 
+ 
  export class AppComponent {
   public n: number = 1;
 
