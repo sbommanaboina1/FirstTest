@@ -37,25 +37,125 @@
     .changed {
       background: pink;
     }
-    .Up {
-      color: black;
-      background: green;
-      animation: 1 blinkUp 1s step-end infinite
+    /*div {
+  transition: background-color 0.5s ease;
+  background-color: red;
+}
+div:hover {
+  background-color: green;
+}*/
+/*.box {
+    border-style: solid;
+    border-width: 1px;
+    display: block;
+    width: 100px;
+    height: 100px;
+    background-color: #0000FF;
+    -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+    transition: width 2s, height 2s, background-color 2s, transform 2s;
+}
+
+.box:hover {
+    background-color: #FFCCCC;
+    width: 200px;
+    height: 200px;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}*/
+
+@-webkit-keyframes fadeUp {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: green; }
+  100% { background-color: #FFFFFF; }
+}
+@-moz-keyframes fadeUp {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: green; }
+  100% { background-color: #FFFFFF; }
+}
+@-o-keyframes fadeUp {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: green; }
+  100% { background-color: #FFFFFF; }
+}
+@keyframes fadeUp {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: green; }
+  100% { background-color: #FFFFFF; }
+}
+
+
+@-webkit-keyframes fadeDown {
+  0%   { background-color: #AD301B; }
+  50%  { background-color: #AD301B; }
+  100% { background-color: #FFFFFF; }
+}
+@-moz-keyframes fadeDown {
+  0%   { background-color: #AD301B; }
+  50%  { background-color: #AD301B; }
+  100% { background-color: #FFFFFF; }
+}
+@-o-keyframes fadeDown {
+  0%   { background-color: #AD301B; }
+  50%  { background-color: #AD301B; }
+  100% { background-color: #FFFFFF; }
+}
+@keyframes fadeDown {
+  0%   { background-color: #AD301B; }
+  50%  { background-color: #AD301B; }
+  100% { background-color: #FFFFFF; }
+}
+
+.Down{    
+    background-image:none !important;
+    -webkit-animation: fadeDown 1s ease-in-out; 
+       -moz-animation: fadeDown 1s ease-in-out; 
+         -o-animation: fadeDown 1s ease-in-out; 
+            animation: fadeDown 1s ease-in-out; 
+}
+.Up {
+         background-image:none !important;
+    -webkit-animation: fadeUp 1s ease-in-out; 
+       -moz-animation: fadeUp 1s ease-in-out; 
+         -o-animation: fadeUp 1s ease-in-out; 
+            animation: fadeUp 1s ease-in-out; 
     }
-    .Down {
-      color:black;
-       background: red;
-      animation: 1 blinkDown 1s step-end infinite
-    }
-    .current-server {
+    /*-webkit-transition: fade 500ms ease-out 1s,-webkit-transform 2s;
+    transition: fade 2s, transform 2s;
+    
+    /*-moz-transition: background-color 500ms ease-out 1s;
+    -o-transition: background-color 500ms ease-out 1s;
+    transition: background-color 500ms ease-out 1s;*/
+    /*background-color: white;*/
+    /*.Up {
+      background: black;
+      transition: background-color 0.5s ease;background-color: green;
+    }*/
+    /*.Down {
+      background-color: red;
+        -webkit-transition: background-color 1ms linear;
+        -moz-transition: background-color 1ms linear;
+        -o-transition: background-color 1ms linear;
+        -ms-transition: background-color 1ms linear;
+        transition: background-color 1ms linear;
+      /*color: red;
+       -webkit-transform: background-color 500ms ease-out;
+    transform: background-color 500ms ease-out;
+     background-color: white;*/
+       /*background: red;*/
+      /*transition: background-color 0.5s ease;background-color: red;*/
+      /*animation: 1 blinkDown 1s step-end infinite
+      }*/
+    
+    /*.current-server {
       border: 1px solid black;
       background: orange;
        -webkit-animation: changebg 5s infinite cubic-bezier(1,0,0,1);
        -moz-animation: changebg 5s infinite cubic-bezier(1,0,0,1);
             animation: changebg 5s infinite cubic-bezier(1,0,0,1);
       
-    }
-    @-moz-keyframes changebg {
+    }*/
+    /*@-moz-keyframes changebg {
       0% {background-color: #f00;}
      50% {background-color: #fff;}
     100% {background-color: #f00;}
@@ -76,7 +176,7 @@
       0% {background-color: #f00;}
      50% {background-color: #fff;}
     100% {background-color: #f00;}
-}
+}*/
   </style>
 </head>
 <body>
@@ -96,6 +196,8 @@
 <script src="../slick.grid.js"></script>
 
 <script>
+   $('#myGrid').on('classChange', function() {
+     alert('class changed');});
   var dataView;
   var grid;
   var data = [];
@@ -130,13 +232,10 @@
     item[colField] = "30 days";
     dataView.updateItem(item.id, item);
     debugger;
-    grid.flashCell("0", 2, 100);
-    // grid.resetActiveCell();
-    // grid.render();
-    // dataView.refresh();
+   // grid.flashCell("0", 2, 100);
   }
   function simulateRealTimeUpdates() {
-      
+     
   }
   $(function () {
     // prepare the data
@@ -225,7 +324,7 @@
         grid.setCellCssStyles(i+"TradePrice", changes);
         grid.render();
         }
-    }, 250)
+    }, 2000)
   })
 </script>
 <input type="button" onclick="AccessGrid()"/>
