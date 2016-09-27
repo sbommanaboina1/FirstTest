@@ -3,6 +3,8 @@ Clone the repo git clone https://bitbucket.org/username/repo-fork.git
 Work in that fork git commit -m "some work done", git push -u origin master
 Create a Pull request to request your changes to be placed back into the parent of the fork
 
+https://www.angularattack.com/entries/506-armyofone
+
  https://angular.io/docs/ts/latest/cookbook/dynamic-form.html
  
  https://github.com/ng2-ui/ng2-collapsable
