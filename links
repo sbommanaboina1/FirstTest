@@ -1,4 +1,8 @@
- Fork the repo on Bitbucket (or other site)
+
+https://github.com/bjaanes/mqtt-ws
+
+
+Fork the repo on Bitbucket (or other site)
 Clone the repo git clone https://bitbucket.org/username/repo-fork.git
 Work in that fork git commit -m "some work done", git push -u origin master
 Create a Pull request to request your changes to be placed back into the parent of the fork
